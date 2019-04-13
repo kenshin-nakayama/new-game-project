@@ -15,7 +15,7 @@ public class CameraScript : MonoBehaviour
     float angleY = 0;
     float angleX = 0;
     public Transform hidingObject;
-
+    [SerializeField] LayerMask ignoreLayers;
 
   
     public void ResetAngles()
@@ -47,7 +47,7 @@ public class CameraScript : MonoBehaviour
             angleX += 360;
         }
 
-        if (Input.GetKey(KeyCode.Mouse0) && HidingScript.hiding == false)
+        if (Input.GetKey(KeyManager.controls["CameraMovement"]) && HidingScript.hiding == false)
         {
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -86,10 +86,18 @@ public class CameraScript : MonoBehaviour
 
             Vector3 newPos = new Vector3(lookObject.position.x, 0, lookObject.position.z) + Vector3.up * height;
 
+            Ray ray = new Ray(player.position, lookObject.position + new Vector3(0, height, 0) - player.position);
+            RaycastHit hit;
 
-
-            transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * speed);
-
+            if (Physics.Raycast(ray, out hit, Vector3.Distance(player.position, (lookObject.position + new Vector3(0, height, 0))), ignoreLayers))
+            {
+                newPos = new Vector3(hit.point.x, height + player.position.y, hit.point.z) - ray.direction;
+                transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * speed);
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * speed);
+            }
 
             transform.LookAt(lookHolder);
         }
