@@ -19,7 +19,7 @@ public class OpenDoor : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if(Input.GetKeyDown(KeyManager.controls["Interact"]))
             {
                 DoorOne.SetActive(false);
             }
