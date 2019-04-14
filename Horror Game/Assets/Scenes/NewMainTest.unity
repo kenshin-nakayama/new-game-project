@@ -1280,26 +1280,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1159138629, guid: 3d447975791020e409a93210faff5475, type: 3}
-      propertyPath: wallBufferValue
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159138629, guid: 3d447975791020e409a93210faff5475, type: 3}
-      propertyPath: height
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159138629, guid: 3d447975791020e409a93210faff5475, type: 3}
-      propertyPath: speed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159138629, guid: 3d447975791020e409a93210faff5475, type: 3}
-      propertyPath: distance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159138629, guid: 3d447975791020e409a93210faff5475, type: 3}
-      propertyPath: mouseSpeed
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 456000716, guid: 3d447975791020e409a93210faff5475, type: 3}
       propertyPath: m_BounceIntensity
       value: 0

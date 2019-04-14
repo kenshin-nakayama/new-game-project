@@ -8,7 +8,6 @@ public class CameraScript : MonoBehaviour
     [SerializeField] Transform player; //The player object
     [SerializeField] Transform lookObject;
     [SerializeField] Transform lookHolder;
-    [SerializeField] float wallBufferValue = 2f;
     [SerializeField] float distance;  //The distance from the player to hover
     [SerializeField] float height; //The height above the player to hover
     [SerializeField] float speed; //The follow speed of the camera
@@ -85,20 +84,15 @@ public class CameraScript : MonoBehaviour
         {
             lookObject.position = lookHolder.position - lookHolder.forward * distance;
 
-            Vector3 lookObjY = new Vector3(lookObject.position.x, player.position.y, lookObject.position.z);
+            Vector3 newPos = new Vector3(lookObject.position.x, 0, lookObject.position.z) + Vector3.up * height;
 
-            Vector3 newPos = new Vector3(lookObject.position.x, player.position.y, lookObject.position.z) + Vector3.up * height;
-
-            Ray ray = new Ray(player.position, lookObjY + Vector3.up*height - player.position);
+            Ray ray = new Ray(player.position, lookObject.position + new Vector3(0, height, 0) - player.position);
             RaycastHit hit;
-            Debug.DrawRay(player.position, lookObjY + Vector3.up*height - player.position);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayers))
+
+            if (Physics.Raycast(ray, out hit, Vector3.Distance(player.position, (lookObject.position + new Vector3(0, height, 0))), ignoreLayers))
             {
-                //if (Vector3.Distance(player.position, transform.position) + wallBufferValue > Vector3.Distance(player.position, hit.point))
-                
-                    newPos = new Vector3(hit.point.x, hit.point.y, hit.point.z) + hit.normal.normalized*0.5f;
-                    transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * speed);
-             
+                newPos = new Vector3(hit.point.x, height + player.position.y, hit.point.z) - ray.direction;
+                transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * speed);
             }
             else
             {

@@ -579,11 +579,10 @@ MonoBehaviour:
   player: {fileID: 888263056}
   lookObject: {fileID: 54817695}
   lookHolder: {fileID: 2072790807}
-  wallBufferValue: 300
-  distance: 3
-  height: 2
-  speed: 6
-  mouseSpeed: 80
+  distance: 5
+  height: 4
+  speed: 4
+  mouseSpeed: 50
   hidingObject: {fileID: 0}
   ignoreLayers:
     serializedVersion: 2
