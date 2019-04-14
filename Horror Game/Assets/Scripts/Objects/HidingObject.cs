@@ -9,4 +9,9 @@ public class HidingObject : MonoBehaviour
     public float maxY = 25;
     public float maxX = 25;
 
+    private void Awake()
+    {
+        HidingSpotManager.hidingObjects.Add(this);
+    }
+
 }

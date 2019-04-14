@@ -6,12 +6,15 @@ public class HidingScript : MonoBehaviour
 {
 
     static public bool hiding = false;
-    static public List<BasicAI> spots = new List<BasicAI>();
 
    
-    private Transform hideObject = null;
+    public static Transform hideObject = null;
 
-    
+    private void Start()
+    {
+        hiding = false;
+        hideObject = null;
+    }
 
     private void OnTriggerEnter(Collider col)
     {
@@ -42,14 +45,6 @@ public class HidingScript : MonoBehaviour
             hiding = true;
             FindObjectOfType<CameraScript>().hidingObject = hideObject;
             FindObjectOfType<CameraScript>().ResetAngles();
-        }
-
-        if(hiding == true)
-        {
-            foreach(BasicAI ai in spots)
-            {
-                
-            }
         }
 
     }
