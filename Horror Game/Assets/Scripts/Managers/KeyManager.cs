@@ -9,9 +9,12 @@ public class KeyManager : MonoBehaviour
 
     private void Start()
     {
-        controls.Add("Interact", KeyCode.E);
-        controls.Add("CameraMovement", KeyCode.Mouse0);
-        controls.Add("Tool", KeyCode.F);
+        if (controls.Count == 0)
+        {
+            controls.Add("Interact", KeyCode.E);
+            controls.Add("CameraMovement", KeyCode.Mouse0);
+            controls.Add("Tool", KeyCode.F);
+        }
     }
 
     public void Example()
