@@ -12,7 +12,7 @@ public class KeyManager : MonoBehaviour
         if (controls.Count == 0)
         {
             controls.Add("Interact", KeyCode.E);
-            controls.Add("CameraMovement", KeyCode.Mouse0);
+            controls.Add("CameraMovement", KeyCode.Mouse1);
             controls.Add("Tool", KeyCode.F);
             controls.Add("Escape", KeyCode.Escape);
         }
