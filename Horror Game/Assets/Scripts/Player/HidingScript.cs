@@ -6,7 +6,7 @@ public class HidingScript : MonoBehaviour
 {
 
     static public bool hiding = false;
-
+   
    
     public static Transform hideObject = null;
 
@@ -16,9 +16,16 @@ public class HidingScript : MonoBehaviour
         hideObject = null;
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerStay(Collider col)
     {
-        if(col.tag == "Hide")
+        if (hideObject != null)
+        {
+            if (col.tag == "Hide" && Vector3.Distance(transform.position, col.transform.position) < Vector3.Distance(transform.position, hideObject.position))
+            {
+                hideObject = col.transform;
+            }
+        }
+        else if(col.tag == "Hide")
         {
             hideObject = col.transform;
         }
@@ -51,7 +58,7 @@ public class HidingScript : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Hide")
+        if (col.tag == "Hide" && col.transform == hideObject)
         {
             hideObject = null;
         }
