@@ -40,12 +40,12 @@ public class Flashlight : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && on == true)
+        if (Input.GetKeyDown(KeyManager.controls["Tool"]) && on == true)
         {
             ModelFlash.SetActive(false);
             on = false;
         }
-        else if (Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKeyDown(KeyManager.controls["Tool"]))
         {
             ModelFlash.SetActive(true);
             on = true;
