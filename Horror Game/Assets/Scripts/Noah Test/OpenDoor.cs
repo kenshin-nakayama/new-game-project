@@ -17,7 +17,7 @@ public class OpenDoor : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            while(Input.GetKeyDown(KeyCode.E))
+            if(Input.GetKeyDown(KeyCode.E))
             {
                 doorOpen = true;
             }
