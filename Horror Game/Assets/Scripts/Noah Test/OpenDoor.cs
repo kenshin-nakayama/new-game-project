@@ -4,41 +4,32 @@ using UnityEngine;
 
 public class OpenDoor : MonoBehaviour
 {
-    public float doorSpeed;
-    public bool doorOpen = false;
+    
+   
     public GameObject DoorOne;
-
+    public bool AllowedDoor = true;
+    public float timeDelay = 2f;
+    public bool timeOk;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+
+    
+
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                doorOpen = true;
-            }
-            
-        }
-       
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if(doorOpen == true)
-        {
-            DoorOne.SetActive(false);
-        }
-        
-        if(doorOpen == false)
-        {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                DoorOne.SetActive(true);
+                DoorOne.SetActive(false);
             }
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        DoorOne.SetActive(true);
+    }
+
+
+
 }
