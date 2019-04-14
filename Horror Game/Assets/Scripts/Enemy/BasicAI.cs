@@ -170,7 +170,7 @@ public class BasicAI : MonoBehaviour
 
                     HidingObject[] objs = nearbyObjects.ToArray();
 
-                    
+                    Debug.Log(objs.Length + " :size");
                     searchObj = objs[Random.RandomRange(0, objs.Length)].transform;
 
                     Wait(2, searchObj.position, agent);
