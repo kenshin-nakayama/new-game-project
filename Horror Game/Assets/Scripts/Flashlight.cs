@@ -5,7 +5,7 @@ using UnityEngine;
 public class Flashlight : MonoBehaviour
 {
     public bool on = false;
-    
+
     public GameObject ModelFlash;
 
     //---------------------------------
@@ -18,11 +18,11 @@ public class Flashlight : MonoBehaviour
 
     void TurnOFF()
     {
-        on = false; 
+        on = false;
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            
+
             ModelFlash.SetActive(false);
         }
     }
@@ -31,17 +31,25 @@ public class Flashlight : MonoBehaviour
         on = true;
 
         if (Input.GetKeyDown(KeyCode.F))
-            {
-                
-                ModelFlash.SetActive(true);
-            }
+        {
+
+            ModelFlash.SetActive(true);
+        }
     }
 
 
     private void Update()
     {
-        TurnOFF();
-        TurnON();
+        if (Input.GetKeyDown(KeyCode.F) && on == true)
+        {
+            ModelFlash.SetActive(false);
+            on = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            ModelFlash.SetActive(true);
+            on = true;
+        }
     }
 }
  
