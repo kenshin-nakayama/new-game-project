@@ -33,7 +33,7 @@ public class OpenDoor : MonoBehaviour
             DoorOne.SetActive(false);
         }
         
-        while(doorOpen == false)
+        if(doorOpen == false)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
