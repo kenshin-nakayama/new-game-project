@@ -16,6 +16,8 @@ public class BasicAI : MonoBehaviour
     [SerializeField] private bool searching = false;
     private float pFOV;
 
+    [SerializeField] Transform[] spawnNodes;
+
     private float waiter = 0;
     private List<HidingObject> nearbyObjects = new List<HidingObject>();
 
@@ -44,8 +46,15 @@ public class BasicAI : MonoBehaviour
 
 
 
- 
 
+    private void Start()
+    {
+        if(spawnNodes.Length > 0)
+        {
+            Random.seed = System.DateTime.Now.Millisecond;
+            transform.position = spawnNodes[Random.Range(0, spawnNodes.Length)].position;
+        }
+    }
 
     private void Update()
     {
