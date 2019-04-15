@@ -7,7 +7,12 @@ public class CameraSystemScript : MonoBehaviour
 
     [SerializeField] Transform[] cameras;
     [SerializeField] RenderTexture texture;
+    public float battery = 100;
     int count = 0;
+    [SerializeField] Transform screen;
+    [SerializeField] BatterySystem batterySystem;
+    [SerializeField] TextMesh batteryObject;
+    [SerializeField] Texture[] batteryTextures;
 
     bool up = false;
 
@@ -22,7 +27,28 @@ public class CameraSystemScript : MonoBehaviour
     private void Update()
     {
 
-        if(up && Input.GetKeyDown(KeyManager.controls["Tool"]))
+        
+
+        if(battery > 0 && up)
+        {
+            batteryObject.text = Mathf.Round(battery) + "%";
+            batteryObject.color = Color.green;
+            Debug.Log("Battery: " + battery);
+            battery -= Time.deltaTime;
+        }
+        else
+        {
+            batteryObject.color = Color.red;
+            batteryObject.text = "0%";
+        }
+
+        if (battery <= 0 && Input.GetKeyDown(KeyManager.controls["Reload"]) && batterySystem.batteries > 0)
+        {
+            batterySystem.batteries -= 1;
+            battery = 100;
+        }
+
+        if (up && Input.GetKeyDown(KeyManager.controls["Tool"]))
         {
             cameras[count].gameObject.SetActive(false);
             count += 1;
@@ -54,13 +80,25 @@ public class CameraSystemScript : MonoBehaviour
             count = 0;
         }
 
-        if(HidingScript.hiding == false || up == false)
+        if (battery <= 0)
+        {
+            screen.gameObject.SetActive(false);
+            DisableCameras();
+        }
+        else
+        {
+            screen.gameObject.SetActive(true);
+        }
+
+        if (HidingScript.hiding == false || up == false)
         {
             up = false;
             DisableCameras();
             tablet.gameObject.SetActive(false);
             count = 0;
         }
+
+
 
 
     }
