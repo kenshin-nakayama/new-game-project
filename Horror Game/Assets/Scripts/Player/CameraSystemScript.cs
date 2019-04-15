@@ -7,9 +7,14 @@ public class CameraSystemScript : MonoBehaviour
 
     [SerializeField] Transform[] cameras;
     [SerializeField] RenderTexture texture;
+    public float battery = 100;
     int count = 0;
+    [SerializeField] Transform screen;
+    [SerializeField] BatterySystem batterySystem;
+    [SerializeField] TextMesh batteryObject;
+    [SerializeField] Texture[] batteryTextures;
 
-    bool up = false;
+    [SerializeField] bool up = false;
 
     [SerializeField] Transform tablet;
 
@@ -22,31 +27,53 @@ public class CameraSystemScript : MonoBehaviour
     private void Update()
     {
 
-        if(up && Input.GetKeyDown(KeyManager.controls["Tool"]))
+
+
+        if (battery > 0 && up)
+        {
+            batteryObject.text = Mathf.Round(battery) + "%";
+            batteryObject.color = Color.green;
+            Debug.Log("Battery: " + battery);
+            battery -= Time.deltaTime;
+        }
+        else
+        {
+            batteryObject.color = Color.red;
+            batteryObject.text = "0%";
+        }
+
+        if (battery <= 0 && Input.GetKeyDown(KeyManager.controls["Reload"]) && batterySystem.batteries > 0)
+        {
+            batterySystem.batteries -= 1;
+            battery = 100;
+        }
+
+        if (up && Input.GetKeyDown(KeyManager.controls["Tool"]))
         {
             cameras[count].gameObject.SetActive(false);
             count += 1;
 
-            if(count >= cameras.Length)
+            if (count >= cameras.Length)
             {
                 count = 0;
             }
 
         }
 
-        if(up)
+        if (up)
         {
             cameras[count].gameObject.SetActive(true);
             cameras[count].GetComponent<Camera>().targetTexture = texture;
         }
 
-        if(HidingScript.hiding && Input.GetKeyDown(KeyManager.controls["Tool"]) && up == false)
+        if (HidingScript.hiding && Input.GetKeyDown(KeyManager.controls["Tool"]) && up == false)
         {
             up = true;
             tablet.gameObject.SetActive(true);
             count = 0;
         }
-        else if(Input.GetKeyDown(KeyManager.controls["Escape"]) && up == true)
+
+        if (Input.GetKey(KeyManager.controls["Esc"]))
         {
             up = false;
             DisableCameras();
@@ -54,20 +81,32 @@ public class CameraSystemScript : MonoBehaviour
             count = 0;
         }
 
-        if(HidingScript.hiding == false || up == false)
+        if (battery <= 0)
+        {
+            screen.gameObject.SetActive(false);
+            DisableCameras();
+        }
+        else
+        {
+            screen.gameObject.SetActive(true);
+        }
+
+        if (HidingScript.hiding == false || up == false)
         {
             up = false;
             DisableCameras();
             tablet.gameObject.SetActive(false);
             count = 0;
         }
+
+        Debug.Log(HidingScript.hiding + " hiding");
 
 
     }
 
     private void DisableCameras()
     {
-        foreach(Transform obj in cameras)
+        foreach (Transform obj in cameras)
         {
             obj.gameObject.SetActive(false);
         }
