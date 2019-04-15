@@ -14,7 +14,8 @@ public class KeyManager : MonoBehaviour
             controls.Add("Interact", KeyCode.E);
             controls.Add("CameraMovement", KeyCode.Mouse1);
             controls.Add("Tool", KeyCode.F);
-            controls.Add("Escape", KeyCode.Escape);
+            controls.Add("Esc", KeyCode.Escape);
+            controls.Add("Reload", KeyCode.R);
         }
     }
 

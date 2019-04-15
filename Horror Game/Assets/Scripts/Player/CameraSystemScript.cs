@@ -14,7 +14,7 @@ public class CameraSystemScript : MonoBehaviour
     [SerializeField] TextMesh batteryObject;
     [SerializeField] Texture[] batteryTextures;
 
-    bool up = false;
+    [SerializeField] bool up = false;
 
     [SerializeField] Transform tablet;
 
@@ -72,7 +72,8 @@ public class CameraSystemScript : MonoBehaviour
             tablet.gameObject.SetActive(true);
             count = 0;
         }
-        else if (Input.GetKeyDown(KeyManager.controls["Escape"]) && up == true)
+
+        if (Input.GetKey(KeyManager.controls["Esc"]))
         {
             up = false;
             DisableCameras();
@@ -98,7 +99,7 @@ public class CameraSystemScript : MonoBehaviour
             count = 0;
         }
 
-
+        Debug.Log(HidingScript.hiding + " hiding");
 
 
     }
