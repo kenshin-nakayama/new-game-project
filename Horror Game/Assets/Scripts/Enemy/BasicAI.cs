@@ -16,6 +16,8 @@ public class BasicAI : MonoBehaviour
     [SerializeField] private bool searching = false;
     private float pFOV;
 
+    [SerializeField] Transform[] spawnNodes;
+
     private float waiter = 0;
     private List<HidingObject> nearbyObjects = new List<HidingObject>();
 
@@ -44,8 +46,15 @@ public class BasicAI : MonoBehaviour
 
 
 
- 
 
+    private void Start()
+    {
+        if(spawnNodes.Length > 0)
+        {
+            Random.seed = System.DateTime.Now.Millisecond;
+            transform.position = spawnNodes[Random.Range(0, spawnNodes.Length)].position;
+        }
+    }
 
     private void Update()
     {
@@ -187,10 +196,17 @@ public class BasicAI : MonoBehaviour
                     HidingObject[] objs = nearbyObjects.ToArray();
 
                     Debug.Log(objs.Length + " :size");
-                    searchObj = objs[Random.RandomRange(0, objs.Length)].transform;
+                    if (objs.Length > 0)
+                    {
+                        searchObj = objs[Random.RandomRange(0, objs.Length)].transform;
 
-                    Wait(2, searchObj.position, agent);
-                }
+                        Wait(2, searchObj.position, agent);
+                    }
+                    else
+                    {
+                        Wait(2, nodes[Random.Range(0, nodes.Length)].position, agent);
+                    }
+                    }
                 else
                 {
 
