@@ -27,6 +27,9 @@ public class BasicAI : MonoBehaviour
 
     private float count = 0;
 
+
+    [SerializeField] Animator enemyAnimator;
+
     private bool spotted;
 
     private Transform player;
@@ -105,6 +108,10 @@ public class BasicAI : MonoBehaviour
                 if (spotted)
                 {
 
+                    enemyAnimator.SetBool("Walking", false);
+                    enemyAnimator.SetBool("Running", true);
+
+
                     if (Vector3.Distance(player.position, transform.position) < range)
                     {
                         Death();
@@ -133,6 +140,10 @@ public class BasicAI : MonoBehaviour
                 }
                 else
                 {
+
+                    enemyAnimator.SetBool("Walking", true);
+                    enemyAnimator.SetBool("Running", false);
+
                     pFOV = FOV;
                     agent.acceleration = 8;
                     agent.speed = walkSpeed;
@@ -154,6 +165,11 @@ public class BasicAI : MonoBehaviour
                 pFOV = FOV;
                 agent.acceleration = 8;
                 agent.speed = walkSpeed;
+
+                enemyAnimator.SetBool("Walking", true);
+                enemyAnimator.SetBool("Running", false);
+
+
                 if (searchObj == null)
                 {
                     nearbyObjects.Clear();
@@ -177,6 +193,11 @@ public class BasicAI : MonoBehaviour
                 }
                 else
                 {
+
+                    enemyAnimator.SetBool("Walking", true);
+                    enemyAnimator.SetBool("Running", false);
+
+
                     Debug.DrawLine(transform.position, agent.destination, Color.magenta);
                     if (searchObj == HidingScript.hideObject && HidingScript.hiding)
                     {
@@ -203,7 +224,11 @@ public class BasicAI : MonoBehaviour
         }
         else
         {
-            
+
+            enemyAnimator.SetBool("Walking", false);
+            enemyAnimator.SetBool("Running", false);
+
+
             waiter -= Time.deltaTime;
 
             if(waiter <= 0.05)
