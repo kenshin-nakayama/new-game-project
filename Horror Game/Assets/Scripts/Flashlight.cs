@@ -6,6 +6,8 @@ public class Flashlight : MonoBehaviour
 {
     public bool on = false;
 
+    
+
     public GameObject ModelFlash;
 
     //---------------------------------
