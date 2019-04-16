@@ -10,6 +10,9 @@ public class MovementScript : MonoBehaviour
     [SerializeField] private float turnSpeed = 3f; //How quickly the player turns
     [SerializeField] private Transform lookObject;
     [SerializeField] Transform playerModel;
+
+    [SerializeField] Animator playerAnimator;
+
     private float speed = 5f; //The players current speed;
     
 
@@ -25,14 +28,38 @@ public class MovementScript : MonoBehaviour
         }
 
 
+        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                playerAnimator.SetBool("Running", true);
+                playerAnimator.SetBool("Walking", false);
+            }
+            else
+            {
+                playerAnimator.SetBool("Running", false);
+                playerAnimator.SetBool("Walking", true);
+            }
+
+        }
+        else
+        {
+            playerAnimator.SetBool("Running", false);
+            playerAnimator.SetBool("Walking", false);
+        }
+
+
         Rigidbody rigidbody = GetComponent<Rigidbody>();
 
         Vector3 vel = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z).normalized;
 
         if (vel.magnitude > 0)
         {
+
+          
             playerModel.rotation = Quaternion.Lerp(playerModel.rotation, Quaternion.LookRotation(vel, Vector3.up), turnSpeed * Time.deltaTime);
         }
+        
 
     }
 

@@ -16,6 +16,8 @@ public class BasicAI : MonoBehaviour
     [SerializeField] private bool searching = false;
     private float pFOV;
 
+    [SerializeField] Transform[] spawnNodes;
+
     private float waiter = 0;
     private List<HidingObject> nearbyObjects = new List<HidingObject>();
 
@@ -26,6 +28,9 @@ public class BasicAI : MonoBehaviour
     private Vector3 lastPosSaw;
 
     private float count = 0;
+
+
+    [SerializeField] Animator enemyAnimator;
 
     private bool spotted;
 
@@ -41,12 +46,27 @@ public class BasicAI : MonoBehaviour
 
 
 
- 
 
+    private void Start()
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+
+        if (spawnNodes.Length > 0)
+        {
+            Random.seed = System.DateTime.Now.Millisecond;
+            transform.position = spawnNodes[Random.Range(0, spawnNodes.Length)].position;
+        }
+    }
 
     private void Update()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
+
+        if(agent.enabled == false)
+        {
+            agent.enabled = true;
+        }
 
         if (waiter <= 0)
         {
@@ -105,6 +125,10 @@ public class BasicAI : MonoBehaviour
                 if (spotted)
                 {
 
+                    enemyAnimator.SetBool("Walking", false);
+                    enemyAnimator.SetBool("Running", true);
+
+
                     if (Vector3.Distance(player.position, transform.position) < range)
                     {
                         Death();
@@ -133,6 +157,10 @@ public class BasicAI : MonoBehaviour
                 }
                 else
                 {
+
+                    enemyAnimator.SetBool("Walking", true);
+                    enemyAnimator.SetBool("Running", false);
+
                     pFOV = FOV;
                     agent.acceleration = 8;
                     agent.speed = walkSpeed;
@@ -154,6 +182,11 @@ public class BasicAI : MonoBehaviour
                 pFOV = FOV;
                 agent.acceleration = 8;
                 agent.speed = walkSpeed;
+
+                enemyAnimator.SetBool("Walking", true);
+                enemyAnimator.SetBool("Running", false);
+
+
                 if (searchObj == null)
                 {
                     nearbyObjects.Clear();
@@ -171,12 +204,24 @@ public class BasicAI : MonoBehaviour
                     HidingObject[] objs = nearbyObjects.ToArray();
 
                     Debug.Log(objs.Length + " :size");
-                    searchObj = objs[Random.RandomRange(0, objs.Length)].transform;
+                    if (objs.Length > 0)
+                    {
+                        searchObj = objs[Random.RandomRange(0, objs.Length)].transform;
 
-                    Wait(2, searchObj.position, agent);
-                }
+                        Wait(2, searchObj.position, agent);
+                    }
+                    else
+                    {
+                        Wait(2, nodes[Random.Range(0, nodes.Length)].position, agent);
+                    }
+                    }
                 else
                 {
+
+                    enemyAnimator.SetBool("Walking", true);
+                    enemyAnimator.SetBool("Running", false);
+
+
                     Debug.DrawLine(transform.position, agent.destination, Color.magenta);
                     if (searchObj == HidingScript.hideObject && HidingScript.hiding)
                     {
@@ -203,7 +248,11 @@ public class BasicAI : MonoBehaviour
         }
         else
         {
-            
+
+            enemyAnimator.SetBool("Walking", false);
+            enemyAnimator.SetBool("Running", false);
+
+
             waiter -= Time.deltaTime;
 
             if(waiter <= 0.05)
