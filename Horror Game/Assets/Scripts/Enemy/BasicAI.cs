@@ -49,7 +49,10 @@ public class BasicAI : MonoBehaviour
 
     private void Start()
     {
-        if(spawnNodes.Length > 0)
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+
+        if (spawnNodes.Length > 0)
         {
             Random.seed = System.DateTime.Now.Millisecond;
             transform.position = spawnNodes[Random.Range(0, spawnNodes.Length)].position;
@@ -59,6 +62,11 @@ public class BasicAI : MonoBehaviour
     private void Update()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
+
+        if(agent.enabled == false)
+        {
+            agent.enabled = true;
+        }
 
         if (waiter <= 0)
         {
